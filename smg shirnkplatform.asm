@@ -5,25 +5,38 @@
 00 09 00 00
 11 01 00 01
 2A 00 00 00 09 00 DD C0 ;change your col pointer
-0C 00 00 00 80 40 6B C8
+0C 00 00 00 XX XX XX XX ;init function
 08 00 00 00
-0C 00 00 00 YY YY YY YY ;YOUR CUSTOM FUNCTION, 
+0C 00 00 00 YY YY YY YY ;loop fuction
 0C 00 00 00 80 38 39 CC ;asm fuction for col
 09 00 00 00
 ;
 
 
+;//////////////////////////////////////////
 
-
-
-
-
-;ASM FUNCTION
-
+;ASM FUNCTION INIT
 ADDIU $sp, $sp, 0xFFE8
 SW $ra, 0x0014 ($sp)
 
-JAL 0x00A8F3F			;
+
+LUI $t0, 0x8036 		;carga la parte alta de esa direccion, osea el inicio del struct del objeto
+LW  $t0, 0x1160($t0)    	;completa la palabro :c
+SW $zero, 0x0040($t0)   		;carga 0 en la variable que luego va a comparar
+
+LW RA, 0x14 (SP)
+JR RA
+ADDIU SP, SP, 0x0018
+
+
+;//////////////////////////////////////////
+
+
+;ASM FUNCTION LOOP
+ADDIU $sp, $sp, 0xFFE8
+SW $ra, 0x0014 ($sp)
+
+JAL 0x00A8F3F			; cambiar al pasar a hex funcion correcta es 0C 0A 8F 3F
 NOP 
 
 LUI $t0, 0x8036 		;carga la parte alta de esa direccion, osea el inicio del struct del objeto
@@ -44,7 +57,7 @@ NOP
 @@colliding:
 NOP
 
-LUI a0, 0x3072		;button press: 305A, 3072 boing?
+LUI a0, 0x3072		;button press: 305A, 3072 boing? unused sound
 JAL 0x802CA144 
 ORI a0, a0, 0x0081 		
 LUI $t0, 0x8036 		;carga la parte alta de esa direccion, osea el inicio del struct del objeto, VUELVE A CARGAR POR EL JAL
@@ -90,18 +103,7 @@ BEQ $zero, $zero, @@nocol 	;salta al final
 
 
 NOP
-LUI $a1, 0x0000			; entrega a1 en 0 PARTE ALTA
-LW  $a1, 0x0000($a1)		;deja a1 en 0
-
-LUI $a2, 0x0000			; model id 0
-LW  $a2, 0x00C0($a2)		;deja a2 en el id
-
-LUI $a3, 0x1300			; behavior
-LW  $a3, 0x24AC($a3)		; segmentado
-
-JAL 0x8029ED20			;SPAWN OBJECT AT ORIGIN
-NOP
-SW $zero, 0x74($t0) 		;unload object 
+SW $zero, 0x74($t0) ;unload object ,JAL 0x8029ED20 		
 NOP
 
 
@@ -110,4 +112,5 @@ NOP
 LW RA, 0x14 (SP)
 JR RA
 ADDIU SP, SP, 0x0018
+
 
