@@ -1,4 +1,5 @@
 ;SMG shrinkplatform so you won't need MOP
+;THE SOUND IS THE UNUSED BOING SO YOU CAN PLACE A CUSTOM ONE :)
 
 ;BEHAVIOR
 00 09 00 00
@@ -109,3 +110,4 @@ NOP
 LW RA, 0x14 (SP)
 JR RA
 ADDIU SP, SP, 0x0018
+
