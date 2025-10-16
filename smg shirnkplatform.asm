@@ -5,9 +5,9 @@
 00 09 00 00
 11 01 00 01
 2A 00 00 00 09 00 DD C0 ;change your col pointer
-0C 00 00 00 XX XX XX XX ;init function
+0C 00 00 00 XX XX XX XX ;init function HERE
 08 00 00 00
-0C 00 00 00 YY YY YY YY ;loop fuction
+0C 00 00 00 YY YY YY YY ;loop fuction HERE
 0C 00 00 00 80 38 39 CC ;asm fuction for col
 09 00 00 00
 ;
@@ -112,5 +112,6 @@ NOP
 LW RA, 0x14 (SP)
 JR RA
 ADDIU SP, SP, 0x0018
+
 
 
